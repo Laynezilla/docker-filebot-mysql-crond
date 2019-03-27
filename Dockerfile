@@ -5,8 +5,8 @@ ENV PGID 1001
 ENV PUSER filebot
 ENV PGROUP filebot
 
-COPY root/scripts/beets_import.sh /scripts/beets_import.sh
-COPY root/etc/crontabs/beets /etc/crontabs/$PUSER
+COPY root/scripts/filebot_import.sh /scripts/filebot_import.sh
+COPY root/etc/crontabs/filebot /etc/crontabs/$PUSER
 
 RUN apk add --no-cache --virtual=build-dependencies --upgrade git && \
 	apk add --no-cache --upgrade openjdk8 && \
