@@ -17,7 +17,7 @@ RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-
 	chown $PUSER:$PGROUP /filebot /config /data/music /log /scripts && \
 	chmod 755 /filebot /config /data/music /log /scripts && \
 	chmod 600 /etc/crontabs/$PUSER && \
-	chmod 755 /scripts/beets_import.sh
+	chmod 755 /scripts/filebot_import.sh
 
 WORKDIR /filebot
 
