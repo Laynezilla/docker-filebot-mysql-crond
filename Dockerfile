@@ -3,23 +3,24 @@ FROM openjdk:8-jre-alpine
 ENV PUID 1001
 ENV PGID 1001
 ENV PUSER filebot
-ENV PGROUP filebot
+ENV PGROUP data
 ENV FILEBOTDIR /filebot
 
 COPY root/scripts/ /scripts/
 COPY root/etc/crontabs/filebot /etc/crontabs/$PUSER
+COPY root/usr/local/bin/docker-entrypoint.sh /usr/local/bin/
+#COPY root /
 
-RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-client nano nss tar wget xz && \
+RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-client nano nss su-exec tar wget xz && \
 	apk add --no-cache --upgrade --repository http://nl.alpinelinux.org/alpine/edge/testing chromaprint && \
 	rm -rf /root/.cache /tmp/* && \
 	addgroup -g $PGID $PGROUP && \
 	adduser -D -G $PGROUP -u $PUID $PUSER && \
-	mkdir -p /$FILEBOTDIR /config /data/television /data/film /log /scripts && \
-	chown $PUSER:$PGROUP -R /$FILEBOTDIR /config /data/television /data/film /log /scripts && \
-	chmod 755 -R /$FILEBOTDIR /config /data/television /data/film /log /scripts && \
-	chmod 600 /etc/crontabs/$PUSER
+	chmod +x /usr/local/bin/docker-entrypoint.sh && \
+	mkdir -p $FILEBOTDIR /config /data/television /data/film /log /scripts && \
+	chmod -R 755 $FILEBOTDIR /config /data/television /data/film /log /scripts
 
-WORKDIR /$FILEBOTDIR
+WORKDIR $FILEBOTDIR
 
 RUN PACKAGE_VERSION=4.8.5 && \
 	PACKAGE_FILE=FileBot_$PACKAGE_VERSION-portable.tar.xz && \
@@ -29,6 +30,8 @@ RUN PACKAGE_VERSION=4.8.5 && \
 	mv /$FILEBOTDIR/lib/Linux-x86_64/libzen.so /$FILEBOTDIR/lib/Linux-x86_64/libzen.so.broken && \
 	ln -sf /usr/lib/libzen.so.0.4.37 /$FILEBOTDIR/lib/Linux-x86_64/libzen.so && \
 	ln -sf "/$FILEBOTDIR/filebot.sh" /usr/local/bin/filebot
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 CMD ["crond", "-f", "-d", "8"]
 
