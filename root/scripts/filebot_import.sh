@@ -1,4 +1,4 @@
 #!/bin/sh
-# /scripts/beets_import.sh
+# /scripts/filebot_import.sh
 
 echo "$0 $(date) $(id)"
