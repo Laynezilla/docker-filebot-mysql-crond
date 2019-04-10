@@ -1,11 +1,11 @@
 #!/bin/sh
 # /usr/local/bin/docker-entrypoint.sh
 
-if [ ! "id -u $PUSER" = $PUID ]; then
+if [ ! `id -u $PUSER` == $PUID ]; then
 	usermod -u $PUID $PUSER
 fi
 
-if [ ! "id -g $PUSER" = $PGID ]; then
+if [ ! `id -g $PUSER` == $PGID ]; then
 	groupmod -g $PGID $PGROUP
 fi
 
@@ -16,6 +16,5 @@ if [ "$1" = 'crond' ]; then
 	chmod 600 /etc/crontabs/$PUSER
 	exec "$@"
 else
-	# does this command need to use exec?
-	su-exec $PUSER:$PGROUP "$@"
+	exec su-exec $PUSER:$PGROUP "$@"
 fi
