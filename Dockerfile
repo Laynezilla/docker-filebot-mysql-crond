@@ -24,9 +24,9 @@ RUN PACKAGE_VERSION=4.8.5 && \
 	PACKAGE_URL=https://get.filebot.net/filebot/FileBot_$PACKAGE_VERSION/$PACKAGE_FILE && \
 	curl -o "$PACKAGE_FILE" -z "$PACKAGE_FILE" "$PACKAGE_URL" && \
 	tar xvf "$PACKAGE_FILE" && \
-	mv /$FILEBOTDIR/lib/Linux-x86_64/libzen.so /$FILEBOTDIR/lib/Linux-x86_64/libzen.so.broken && \
-	ln -sf /usr/lib/libzen.so.0.4.37 /$FILEBOTDIR/lib/Linux-x86_64/libzen.so && \
-	ln -sf "/$FILEBOTDIR/filebot.sh" /usr/local/bin/filebot
+	mv $FILEBOTDIR/lib/Linux-x86_64/libzen.so $FILEBOTDIR/lib/Linux-x86_64/libzen.so.broken && \
+	ln -sf /usr/lib/libzen.so.0.4.37 $FILEBOTDIR/lib/Linux-x86_64/libzen.so && \
+	ln -sf "$FILEBOTDIR/filebot.sh" /usr/local/bin/filebot
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
