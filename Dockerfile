@@ -6,12 +6,9 @@ ENV PUSER filebot
 ENV PGROUP data
 ENV FILEBOTDIR /filebot
 
-#COPY root/scripts/ /scripts/
-#COPY root/etc/crontabs/filebot /etc/crontabs/$PUSER
-#COPY root/usr/local/bin/docker-entrypoint.sh /usr/local/bin/
 COPY root /
 
-RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-client nano nss su-exec tar wget xz && \
+RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-client nano nss shadow su-exec tar wget xz && \
 	apk add --no-cache --upgrade --repository http://nl.alpinelinux.org/alpine/edge/testing chromaprint && \
 	rm -rf /root/.cache /tmp/* && \
 	addgroup -g $PGID $PGROUP && \
