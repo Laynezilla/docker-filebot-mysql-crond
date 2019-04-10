@@ -1,6 +1,8 @@
 #!/bin/sh
 # /usr/local/bin/docker-entrypoint.sh
 
+set -e
+
 if [ ! `id -u $PUSER` == $PUID ]; then
 	usermod -u $PUID $PUSER
 fi
