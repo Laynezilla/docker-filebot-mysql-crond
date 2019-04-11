@@ -13,9 +13,13 @@ RUN apk add --no-cache --upgrade curl file inotify-tools libzen mediainfo mysql-
 	rm -rf /root/.cache /tmp/* && \
 	addgroup -g $PGID $PGROUP && \
 	adduser -D -G $PGROUP -u $PUID $PUSER && \
-	chmod +x /usr/local/bin/docker-entrypoint.sh && \
-	mkdir -p $FILEBOTDIR /config /data/television /data/film /log /scripts && \
-	chmod -R 755 $FILEBOTDIR /config /data/television /data/film /log /scripts
+	mkdir -m 775 -p $FILEBOTDIR \
+	/config \
+	/data/television \
+	/data/film \
+	/log \
+	/scripts && \
+	chmod 755 /usr/local/bin/docker-entrypoint.sh /scripts/filebot_artwork.sh /scripts/filebot_import.sh /etc/crontabs/filebot
 
 WORKDIR $FILEBOTDIR
 
