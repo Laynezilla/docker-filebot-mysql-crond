@@ -3,13 +3,6 @@
 
 set -e
 
-if [ ! -e /v-card ]; then
-	if [ -e /scripts/first-run.sh ]; then
-		. /scripts/first-run.sh
-	fi
-	touch /v-card
-fi
-
 if [ ! $(id -u $PUSER) == $PUID ]; then
 	usermod -u $PUID $PUSER
 fi
@@ -20,6 +13,13 @@ fi
 
 chown -R $PUSER:$PGROUP "$FILEBOTDIR" /scripts
 chown $PUSER:$PGROUP /config /data/television /data/film /log
+
+if [ ! -e /v-card ]; then
+	if [ -e /scripts/first-run.sh ]; then
+		. /scripts/first-run.sh
+	fi
+	touch /v-card
+fi
 
 if [ "$1" = 'crond' ]; then
 	chmod 600 /etc/crontabs/$PUSER
